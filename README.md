@@ -10,7 +10,7 @@ activos.
 # 3. Realice el Diagrama de clases y relación con la base de datos y las tablas en
 MySQL.
 
-![Descripción de la imagen](./diagramas/casos_uso_p.png)
+![Descripción de la imagen](diagramas/casos_uso_p.png)
 
 # 4. Requisitos funcionales
 El programa debe permitir:
