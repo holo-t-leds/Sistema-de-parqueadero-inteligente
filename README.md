@@ -29,7 +29,3 @@ Abstracción de las reglas de negocio y cardinalidad entre vehículos, estaciona
 * **Base de Datos:** MySQL
 * **Lógica y Triggers:** MySQL
 * **Modelado:** PlantUML / Mermaid / Notación de Chen
-
-## 🚀 Instalación y Despliegue
-1. Clonar el repositorio: `git clone <url-del-repo>`
-2. Ejecutar el script `script_db.sql` en tu gestor de MySQL (ej. XAMPP o MySQL Workbench).
