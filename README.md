@@ -1,36 +1,35 @@
-# Sistema-de-parqueadero-inteligente
-Un parqueadero necesita registrar vehículos, entradas, salidas y pagos. Cuando ingresa un vehículo, el sistema debe registrar su hora de entrada y mantener el historial de movimientos.
-# El sistema debe cumplir estas reglas:
- i. ¿Cómo impedirías registrar dos entradas activas para la misma placa?
- ii. ¿Cómo calcularías el valor del estacionamiento según el tiempo?
- iii. ¿Qué debería ocurrir cuando un vehículo sale sin pagar?
- iv. diseñar un trigger que registre en una bitácora cada salida y cambio de estado, sin permitir que el mismo vehículo tenga dos estacionamientos
-activos.
+# 🚗 Sistema Inteligente de Parqueadero
 
-# 3. Realice el Diagrama de clases y relación con la base de datos y las tablas en
-MySQL.
+Sistema integral para la gestión, control de tiempos y facturación de un estacionamiento, diseñado con un enfoque modular y arquitectura relacional.
 
-![Descripción de la imagen](diagramas/caso_uso_p.png)
+## 📐 Arquitectura y Modelado
 
-# 4. Requisitos funcionales
-El programa debe permitir:
- Crear las clases Vehículo, Estacionamiento y Pago.
- Registrar un vehículo.
- Crear un registro de entrada sin indicar la hora.
- Consultar la hora y el estado generados por MySQL.
+### 1. Diagrama de Casos de Uso
+Define la interacción entre los operadores del parqueadero y los procesos automatizados del sistema.
 
+<p align="center">
+  <img src="./diagramas/caso_uso_p.png" alt="Diagrama de Casos de Uso" width="800">
+</p>
 
-# 5. Roles de trabajo
- Analista: identifica requisitos y construye el diagrama.
- Programador: desarrolla las clases y sus métodos.
- Tester: prepara casos de prueba y documenta errores.
- Expositor: explica las decisiones y los resultados del equipo.
+### 2. Diagrama de Clases
+Estructura orientada a objetos que define las entidades del sistema, sus atributos y comportamientos.
 
-# 6. Evidencias que deben entregarse
-Cada estudiante o equipo debe presentar:
-1. Los diagramas de clases UML elaborados.
-2. Los archivos .py con el código fuente.
-3. Las capturas o registros de las pruebas realizadas.
-4. Un documento breve con los errores encontrados y cómo fueron corregidos.
-5. Una reflexión final sobre cómo se aplicaron los modelos conductista y
-constructivista durante el desarrollo.
+<p align="center">
+  <img src="diagramas/clases.png" alt="Diagrama de Clases" width="800">
+</p>
+
+### 3. Modelo Entidad-Relación (Conceptual)
+Abstracción de las reglas de negocio y cardinalidad entre vehículos, estacionamientos y pagos.
+
+<p align="center">
+  <img src="Base_de_datos/Modelo-ER.png" alt="Modelo Entidad Relación" width="700">
+</p>
+
+## 🛠️ Tecnologías Utilizadas
+* **Base de Datos:** MySQL
+* **Lógica y Triggers:** MySQL
+* **Modelado:** PlantUML / Mermaid / Notación de Chen
+
+## 🚀 Instalación y Despliegue
+1. Clonar el repositorio: `git clone <url-del-repo>`
+2. Ejecutar el script `script_db.sql` en tu gestor de MySQL (ej. XAMPP o MySQL Workbench).
