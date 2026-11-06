@@ -4,11 +4,14 @@ Sistema integral para la gestión, control de tiempos y facturación de un estac
 
 ## 📐 Arquitectura y Modelado
 
-### 1. Diagrama de Casos de Uso
+### 1. Diagramas de Casos de Uso
 Define la interacción entre los operadores del parqueadero y los procesos automatizados del sistema.
 
 <p align="center">
   <img src="./diagramas/caso_uso_p.png" alt="Diagrama de Casos de Uso" width="800">
+</p>
+<p align="center">
+  <img src="./diagramas/control.png" alt="Diagrama de Casos de Uso" width="800">
 </p>
 
 ### 2. Diagrama de Clases
