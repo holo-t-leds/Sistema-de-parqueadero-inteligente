@@ -76,6 +76,7 @@ A continuación, se presentan las vistas principales del aplicativo:
 | **Landing Page**<br><br><img src="Mockups/landing%20page.png" width="400" alt="Landing Page"> | **Panel Principal**<br><br><img src="Mockups/Panel_principal.png" width="400" alt="Panel Principal"> |
 | **Inicio de Sesión**<br><br><img src="Mockups/login.png" width="400" alt="Login"> | **Gestión de Vehículos**<br><br><img src="Mockups/Gestión.png" width="400" alt="Gestión"> |
 | **Registro de Usuario**<br><br><img src="Mockups/registro.png" width="400" alt="Registro"> | **Módulo de Cobro**<br><br><img src="Mockups/cobro.png" width="400" alt="Cobro"> |
+| **Panel de Usuario móvil**<br><br><img src="Mockups/usuario1.png" width="400" alt="móvil"> | **Panel de Usuario Tableta**<br><br><img src="Mockups/usuario2.png" width="400" alt="tableta"> |
 
 </div>
 
