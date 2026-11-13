@@ -2,6 +2,41 @@
 
 Sistema integral para la gestión, control de tiempos y facturación de un estacionamiento, diseñado con un enfoque modular y arquitectura relacional.
 
+## 📋 Requisitos del Sistema
+
+El desarrollo de este sistema se basó en el levantamiento formal de requerimientos para garantizar la integridad de las reglas de negocio y un rendimiento óptimo. 
+
+<details>
+<summary><strong>⚙️ Requisitos Funcionales (Reglas de Negocio)</strong></summary>
+<br>
+
+| ID | Módulo | Descripción del Requisito | Prioridad |
+|:---|:---|:---|:---:|
+| **RF-01** | Control de Acceso | Permitir registrar un nuevo vehículo capturando datos esenciales como la placa, tipo y marca. | Alta |
+| **RF-02** | Control de Acceso | Crear un registro de entrada delegando a MySQL la asignación automática de la hora (`TIMESTAMP`) y el estado inicial. | Alta |
+| **RF-03** | Control de Acceso | Validar en la base de datos e impedir que se registre una nueva entrada si la placa del vehículo ya cuenta con un parqueo "activo". | Alta |
+| **RF-04** | Facturación | Calcular automáticamente el valor total a pagar basándose en la diferencia entre la hora de entrada y la de salida. | Alta |
+| **RF-05** | Facturación | Permitir registrar formalmente el pago asociado a un estacionamiento finalizado. | Alta |
+| **RF-06** | Facturación | Ejecutar una alerta o bloqueo si un vehículo registra una salida sin tener un pago validado (prevención de evasión). | Media |
+| **RF-07** | Consultas | Permitir la consulta en cualquier momento de la hora exacta de ingreso y el estado actual de un vehículo. | Media |
+| **RF-08** | Auditoría (BD) | Mantener un historial detallado e inmutable de todos los movimientos de los vehículos mediante Triggers (Bitácora). | Alta |
+
+</details>
+
+<details>
+<summary><strong>📐 Requisitos No Funcionales (Arquitectura y Diseño)</strong></summary>
+<br>
+
+| ID | Categoría | Descripción del Requisito | Prioridad |
+|:---|:---|:---|:---:|
+| **RNF-01** | Arquitectura | El programa debe estructurarse en Python utilizando el paradigma Orientado a Objetos (Clases: `Vehiculo`, `Estacionamiento`, `Pago`). | Alta |
+| **RNF-02** | Base de Datos | El sistema debe utilizar MySQL como sistema gestor de base de datos relacional. | Alta |
+| **RNF-03** | Base de Datos | La automatización del historial (bitácora) y el bloqueo de dobles ingresos debe realizarse nativamente mediante *Triggers* (disparadores) SQL. | Alta |
+| **RNF-04** | Interfaz UI/UX | La interfaz gráfica debe seguir un diseño web SaaS, minimalista, limpio y utilizando colores pastel (azul, verde menta, gris claro). | Media |
+| **RNF-05** | Rendimiento | El cálculo de tarifas y la validación de placas activas deben realizarse con respuesta en tiempo real. | Alta |
+
+</details>
+
 ## 📐 Arquitectura y Modelado
 
 ### 1. Diagramas de Casos de Uso
