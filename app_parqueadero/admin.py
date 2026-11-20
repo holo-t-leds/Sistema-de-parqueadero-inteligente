@@ -7,18 +7,30 @@ from .models import Vehiculos, Estacionamientos, Pagos, BitacoraMovimientos
 @admin.register(Vehiculos)
 class VehiculosAdmin(admin.ModelAdmin):
     list_display = ('placa', 'tipo_vehiculo', 'marca')
+    search_fields = ('placa', 'tipo_vehiculo', 'marca')
+    list_filter = ('tipo_vehiculo',)
 
 @admin.register(Estacionamientos)
 class EstacionamientosAdmin(admin.ModelAdmin):
     list_display = ('id_estacionamiento', 'placa_vehiculo', 'hora_entrada', 'hora_salida', 'estado_parqueo')
-    exclude = ('hora_entrada', 'hora_salida')
+    list_filter = ('estado_parqueo',)
+    search_fields = ('placa_vehiculo__placa',)
+    readonly_fields = ('hora_entrada',)
+    exclude = ('hora_salida',)
     # Añadimos los botones de acción personalizados
     actions = ['registrar_salida_pagada', 'registrar_salida_sin_pago']
+
+    def get_exclude(self, request, obj=None):
+        # Al crear un nuevo ingreso, nunca mostrar hora_entrada (la asigna MySQL)
+        if obj is None:
+            return ('hora_entrada', 'hora_salida')
+        return ('hora_salida',)
 
     def save_model(self, request, obj, form, change):
         try:
             super().save_model(request, obj, form, change)
-            obj.refresh_from_db()
+            if obj.pk:
+                obj.refresh_from_db()
         except DatabaseError as e:
             messages.set_level(request, messages.ERROR)
             messages.error(request, f"Bloqueo de seguridad (Trigger): {e}")
@@ -67,9 +79,12 @@ class EstacionamientosAdmin(admin.ModelAdmin):
 @admin.register(Pagos)
 class PagosAdmin(admin.ModelAdmin):
     list_display = ('id_pago', 'id_estacionamiento', 'valor_total', 'estado_pago')
+    list_filter = ('estado_pago',)
 
 @admin.register(BitacoraMovimientos)
 class BitacoraMovimientosAdmin(admin.ModelAdmin):
     list_display = ('id_bitacora', 'placa_referencia', 'evento', 'fecha_evento')
+    search_fields = ('placa_referencia', 'evento')
+    ordering = ('-fecha_evento', '-id_bitacora')
     def has_add_permission(self, request): return False
     def has_change_permission(self, request, obj=None): return False

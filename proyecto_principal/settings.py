@@ -10,10 +10,29 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+def _cargar_env_local(ruta_env: Path) -> None:
+    """Carga variables de un archivo .env local sin sobrescribir las del SO."""
+    if not ruta_env.is_file():
+        return
+    for linea in ruta_env.read_text(encoding='utf-8').splitlines():
+        linea = linea.strip()
+        if not linea or linea.startswith('#') or '=' not in linea:
+            continue
+        clave, valor = linea.split('=', 1)
+        clave = clave.strip()
+        valor = valor.strip().strip('"').strip("'")
+        if clave and clave not in os.environ:
+            os.environ[clave] = valor
+
+
+_cargar_env_local(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'app_parqueadero',  # Tu aplicación
 ]
 
@@ -70,17 +90,30 @@ TEMPLATES = [
 WSGI_APPLICATION = 'proyecto_principal.wsgi.application'
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'parqueadero_inteligente',
-        'USER': 'root',
-        'PASSWORD': '',  
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'NAME': os.environ.get('DB_NAME', 'parqueadero_inteligente'),
+        'USER': os.environ.get('DB_USER', 'root'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'root'),
+        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('DB_PORT', '3306'),
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
 

@@ -16,7 +16,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework_simplejwt.views import TokenRefreshView
+
+from app_parqueadero.auth_api import CurrentUserView, RoleTokenObtainPairView
+from app_parqueadero.views import (
+    BitacoraListView,
+    ConsultaEstadoVehiculoView,
+    EstacionamientoEntradaView,
+    EstacionamientoListView,
+    VehiculoListCreateView,
+)
+from app_parqueadero.web_views import demo_login
 
 urlpatterns = [
+    path('', demo_login, name='demo_login'),
     path('admin/', admin.site.urls),
+    path('api/auth/token/', RoleTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/auth/me/', CurrentUserView.as_view(), name='current_user'),
+    # Endpoints de negocio (Criterios 2.2 a 2.4)
+    path('api/vehiculos/', VehiculoListCreateView.as_view(), name='api_vehiculos'),
+    path('api/estacionamientos/', EstacionamientoListView.as_view(), name='api_estacionamientos'),
+    path('api/estacionamientos/entrada/', EstacionamientoEntradaView.as_view(), name='api_entrada_automatica'),
+    path('api/estacionamientos/estado/<str:placa>/', ConsultaEstadoVehiculoView.as_view(), name='api_consulta_estado'),
+    path('api/bitacora/', BitacoraListView.as_view(), name='api_bitacora'),
 ]

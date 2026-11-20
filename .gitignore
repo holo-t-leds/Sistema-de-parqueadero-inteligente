@@ -1,0 +1,20 @@
+# Entornos virtuales (lo más pesado)
+.venv/
+venv/
+env/
+
+# Archivos compilados y caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Credenciales y variables locales
+.env
+
+# Bases de datos locales y logs
+*.sqlite3
+*.log
+
+# Carpetas de editores e IDE
+.vscode/
+.idea/

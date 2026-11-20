@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Acceso - Parqueadero inteligente</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 3rem auto; max-width: 32rem; padding: 0 1rem; }
+        form { display: grid; gap: .75rem; }
+        input, button { font: inherit; padding: .65rem; }
+        button { cursor: pointer; }
+        .hidden { display: none; }
+        .error { color: #a00; }
+        .panel { border: 1px solid #ccc; border-radius: .5rem; margin-top: 1rem; padding: 1rem; }
+    </style>
+</head>
+<body>
+    <h1>Parqueadero inteligente</h1>
+    <section id="login-panel">
+        <h2>Iniciar sesión</h2>
+        <form id="login-form">
+            <label>Usuario <input id="username" required autocomplete="username"></label>
+            <label>Contraseña <input id="password" type="password" required autocomplete="current-password"></label>
+            <button type="submit">Ingresar</button>
+        </form>
+        <p id="login-error" class="error" role="alert"></p>
+    </section>
+
+    <section id="welcome-panel" class="panel hidden">
+        <h2 id="welcome"></h2>
+        <p id="role-description"></p>
+        <button id="logout" type="button">Cerrar sesión</button>
+    </section>
+
+    <script>
+        const loginForm = document.querySelector('#login-form');
+        const loginPanel = document.querySelector('#login-panel');
+        const welcomePanel = document.querySelector('#welcome-panel');
+        const loginError = document.querySelector('#login-error');
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            loginError.textContent = '';
+
+            const response = await fetch('/api/auth/token/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: document.querySelector('#username').value,
+                    password: document.querySelector('#password').value
+                })
+            });
+
+            if (!response.ok) {
+                loginError.textContent = 'Usuario o contraseña incorrectos.';
+                return;
+            }
+
+            const tokens = await response.json();
+            const profileResponse = await fetch('/api/auth/me/', {
+                headers: {'Authorization': `Bearer ${tokens.access}`}
+            });
+            const profile = await profileResponse.json();
+
+            document.querySelector('#welcome').textContent =
+                `Hola ${profile.role} ${profile.username}`;
+            document.querySelector('#role-description').textContent =
+                profile.role === 'admin'
+                    ? 'Puedes administrar el sistema desde el panel de administración.'
+                    : 'Puedes consultar las funciones disponibles para clientes.';
+            loginPanel.classList.add('hidden');
+            welcomePanel.classList.remove('hidden');
+        });
+
+        document.querySelector('#logout').addEventListener('click', () => {
+            welcomePanel.classList.add('hidden');
+            loginPanel.classList.remove('hidden');
+            loginForm.reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+classDiagram
+    direction LR
+
+    class Vehiculos {
+        -str placa <<PK>>
+        -str tipo_vehiculo
+        -str marca
+        +normalizar_placa(placa: str) str
+        +validar_placa(placa: str) void
+        +clean() void
+        +registrar_vehiculo(placa: str, tipo_vehiculo: str, marca: str) Vehiculos
+        +tiene_estacionamiento_activo() bool
+        +consultar_historial() QuerySet
+    }
+
+    class Estacionamientos {
+        -int id_estacionamiento <<PK>>
+        -str placa_vehiculo <<FK>>
+        -datetime hora_entrada
+        -datetime hora_salida
+        -str estado_parqueo
+        +clean() void
+        +esta_activo() bool
+        +crear_entrada(placa: str) Estacionamientos
+        +consultar_estado() dict
+        +resumen_estado() str
+    }
+
+    class Pagos {
+        -int id_pago <<PK>>
+        -int id_estacionamiento <<FK>>
+        -Decimal valor_total
+        -str estado_pago
+        +clean() void
+        +esta_pagado() bool
+        +asentar_pago() bool
+    }
+
+    class BitacoraMovimientos {
+        -int id_bitacora <<PK>>
+        -str placa_referencia
+        -str evento
+        -datetime fecha_evento
+        +consultar_por_placa(placa: str) QuerySet
+        <<trigger>> trg_validar_doble_ingreso()
+        <<trigger>> trg_registrar_bitacora_entrada()
+        <<trigger>> trg_registrar_bitacora_salida_estado()
+    }
+
+    Vehiculos "1" --> "0..*" Estacionamientos : registra
+    Estacionamientos "1" --> "0..1" Pagos : genera
+    Estacionamientos "1" ..> "0..*" BitacoraMovimientos : dispara triggers
